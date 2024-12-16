@@ -1,3 +1,15 @@
+---
+import logo1 from "../assets/michael-klein-1.svg?url";
+import logo2 from "../assets/michael-klein-2.svg?url";
+import logo3 from "../assets/michael-klein-3.svg?url";
+import logo4 from "../assets/michael-klein-4.svg?url";
+import logo5 from "../assets/michael-klein-5.svg?url";
+import logo6 from "../assets/michael-klein-6.svg?url";
+import logo7 from "../assets/michael-klein-7.svg?url";
+import logo8 from "../assets/michael-klein-8.svg?url";
+const logoUrls = [logo1, logo2, logo3, logo4, logo5, logo6, logo7, logo8];
+---
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -12,10 +24,25 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="generator" content={Astro.generator} />
     <title>michaelklein.io - Under construction</title>
+    <link rel="stylesheet" href="variables.css" />
   </head>
   <body>
+    <nav>
+      <random-signature data-logourls={logoUrls}></random-signature>
+    </nav>
     <slot />
   </body>
+  <script>
+    class RandomSignature extends HTMLElement {
+      connectedCallback() {
+        const urls = this.dataset.logourls!.split(",");
+        console.log(urls);
+        this.innerHTML = `<img src="${urls[Math.round(Math.random() * (urls.length - 1))]}" alt="Logo as signature: Michael Klein" />`;
+      }
+    }
+
+    customElements.define("random-signature", RandomSignature);
+  </script>
 </html>
 
 <style>
@@ -24,5 +51,9 @@
     margin: 0;
     width: 100%;
     height: 100%;
+  }
+  nav {
+    width: min(100%, 400px);
+    padding: var(--nav-padding);
   }
 </style>
